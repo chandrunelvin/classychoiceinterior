@@ -1,0 +1,43 @@
+@import "tailwindcss";
+
+@theme {
+  --color-gold: #c8963e;
+  --color-gold-dark: #a87a2c;
+  --color-gold-light: #f3e7d3;
+  --color-cream: #faf6f0;
+  --color-navy: #13213c;
+  --color-navy-dark: #0d1830;
+  --color-ink: #1f1f1f;
+  --color-muted: #6b6b6b;
+  --color-line: #ece5da;
+}
+
+@theme inline {
+  --font-serif: var(--font-marcellus), Georgia, serif;
+  --font-sans: var(--font-poppins), ui-sans-serif, system-ui, sans-serif;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background: #ffffff;
+  color: var(--color-ink);
+  font-family: var(--font-poppins), ui-sans-serif, system-ui, sans-serif;
+}
+
+@layer components {
+  .eyebrow {
+    @apply text-[11px] font-medium uppercase tracking-[0.25em] text-gold;
+  }
+  .section-title {
+    @apply font-serif text-3xl text-ink sm:text-4xl;
+  }
+  .btn-gold {
+    @apply inline-flex items-center gap-2 rounded-md bg-gold px-6 py-3 text-sm font-medium text-white shadow-sm transition hover:bg-gold-dark;
+  }
+  .container-x {
+    @apply mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8;
+  }
+}
