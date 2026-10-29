@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import Image from "next/image";
 import { ArrowRight } from "lucide-react";
 
-const slides = ["/images/hero.jpg", "/images/fullhome.jpg", "/images/project-living.jpg"];
+const slides = ["/images/hero-banner.webp", "/images/fullhome.jpg", "/images/project-living.jpg"];
 
 export default function Hero() {
   const [active, setActive] = useState(0);
@@ -15,7 +15,7 @@ export default function Hero() {
   }, []);
 
   return (
-    <section className="relative h-[560px] overflow-hidden sm:h-[620px]">
+    <section className="relative h-[640px] overflow-hidden sm:h-[700px]">
       {slides.map((src, i) => (
         <Image
           key={src}
@@ -31,7 +31,9 @@ export default function Hero() {
       ))}
       <div className="absolute inset-0 bg-gradient-to-r from-black/75 via-black/40 to-transparent" />
 
-      <div className="container-x relative flex h-full flex-col justify-center">
+      <div className="absolute inset-x-0 top-0 h-32 bg-gradient-to-b from-black/50 to-transparent" />
+
+      <div className="container-x relative flex h-full flex-col justify-center pt-20 xl:pt-24">
         <p className="text-[11px] font-medium uppercase leading-5 tracking-[0.3em] text-white/85">
           Modern Interiors
           <br />

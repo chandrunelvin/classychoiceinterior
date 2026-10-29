@@ -9,6 +9,7 @@ const services = [
   "Dining Room",
   "Wardrobes",
   "Full Home Interiors",
+  "Commercial Interiors",
 ];
 
 const socials = [
@@ -24,7 +25,7 @@ export default function Footer() {
     <footer className="bg-navy-dark text-white/80">
       <div className="container-x grid gap-10 py-14 sm:grid-cols-2 lg:grid-cols-[1.4fr_1fr_1fr_1.3fr]">
         <div>
-          <Logo light />
+          <Logo light className="h-20" />
           <p className="mt-5 max-w-xs text-xs leading-relaxed text-white/70">
             Personalised interiors for modern living. We create beautiful, functional spaces
             that reflect your style and enhance your everyday life.
@@ -63,7 +64,10 @@ export default function Footer() {
           <ul className="mt-5 space-y-2.5 text-xs">
             {services.map((l) => (
               <li key={l}>
-                <a href="#services" className="hover:text-gold">
+                <a
+                  href={l === "Commercial Interiors" ? "#commercial" : "#residential"}
+                  className="hover:text-gold"
+                >
                   {l}
                 </a>
               </li>

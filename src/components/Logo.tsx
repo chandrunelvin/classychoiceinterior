@@ -1,27 +1,22 @@
+import Image from "next/image";
+
 type LogoProps = {
   light?: boolean;
+  className?: string;
 };
 
-export default function Logo({ light = false }: LogoProps) {
+// logo.webp has a navy wordmark; logo-light.webp is the same logo with a white wordmark for dark backgrounds.
+export default function Logo({ light = false, className = "h-14" }: LogoProps) {
   return (
-    <a href="#" className="flex items-center gap-3">
-      <span className="relative grid h-12 w-12 place-items-center rounded-full bg-gradient-to-br from-gold to-gold-dark p-[3px] shadow-md">
-        <span className="grid h-full w-full place-items-center rounded-full bg-navy">
-          <span className="font-serif text-2xl leading-none text-gold">C</span>
-        </span>
-      </span>
-      <span className="leading-tight">
-        <span
-          className={`block font-serif text-[15px] tracking-wide ${light ? "text-white" : "text-navy"}`}
-        >
-          CLASSY CHOICE
-        </span>
-        <span
-          className={`block text-[9px] tracking-[0.35em] ${light ? "text-white/70" : "text-muted"}`}
-        >
-          INTERIORS
-        </span>
-      </span>
+    <a href="#" className="flex shrink-0 items-center" aria-label="Classy Choice Interiors home">
+      <Image
+        src={light ? "/images/logo-light.webp" : "/images/logo.webp"}
+        alt="Classy Choice Interiors"
+        width={850}
+        height={300}
+        priority
+        className={`w-auto ${className}`}
+      />
     </a>
   );
 }

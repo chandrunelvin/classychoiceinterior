@@ -5,13 +5,13 @@ export default function CTA() {
   return (
     <section id="contact" className="relative overflow-hidden">
       <Image
-        src="/images/cta.jpg"
+        src="/images/contact-bg.webp"
         alt=""
         fill
         sizes="100vw"
         className="object-cover"
       />
-      <div className="absolute inset-0 bg-navy/85" />
+      <div className="absolute inset-0 bg-navy/45" />
       <div className="container-x relative py-16 text-center">
         <p className="text-[11px] uppercase tracking-[0.3em] text-white/70">
           Ready to Transform Your Home?
