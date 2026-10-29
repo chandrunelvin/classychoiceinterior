@@ -1,3 +1,6 @@
+"use client";
+
+import { useEffect, useRef, useState, type CSSProperties } from "react";
 import { Cog, FileCheck, Ruler, Users } from "lucide-react";
 
 const steps = [
@@ -24,6 +27,32 @@ const steps = [
 ];
 
 export default function Process() {
+  const progressRef = useRef<HTMLOListElement>(null);
+  const [started, setStarted] = useState(false);
+
+  useEffect(() => {
+    const progress = progressRef.current;
+    if (!progress) return;
+
+    if (!("IntersectionObserver" in window)) {
+      setStarted(true);
+      return;
+    }
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setStarted(true);
+          observer.disconnect();
+        }
+      },
+      { threshold: 0.15, rootMargin: "0px 0px -5% 0px" },
+    );
+
+    observer.observe(progress);
+    return () => observer.disconnect();
+  }, []);
+
   return (
     <section className="border-b border-line bg-white py-20">
       <div className="container-x">
@@ -32,23 +61,35 @@ export default function Process() {
           A Simple Process to Your Dream Home
         </h2>
 
-        <div className="relative mt-12 grid gap-12 sm:grid-cols-2 lg:grid-cols-4 lg:gap-6">
-          <div className="absolute left-[12.5%] right-[12.5%] top-8 hidden h-px bg-gold/40 lg:block" />
+        <ol
+          ref={progressRef}
+          className="process-progress mt-12"
+          data-started={started}
+        >
           {steps.map(({ icon: Icon, title, text }, i) => (
-            <div key={title} className="relative text-center">
-              <span className="relative mx-auto grid h-16 w-16 place-items-center rounded-full border border-gold/30 bg-cream text-gold">
-                <Icon className="h-6 w-6" strokeWidth={1.5} />
+            <li
+              key={title}
+              className="process-step"
+              style={{ "--process-step": i } as CSSProperties}
+            >
+              {i < steps.length - 1 && (
+                <span className="process-connector" aria-hidden="true" />
+              )}
+              <span className="process-icon" aria-hidden="true">
+                <Icon className="relative h-6 w-6" strokeWidth={1.5} />
               </span>
-              <p className="mt-6 font-serif text-xl text-ink">
-                {String(i + 1).padStart(2, "0")}
-              </p>
-              <h3 className="mt-1 text-sm font-semibold text-ink">{title}</h3>
-              <p className="mx-auto mt-2 max-w-[200px] text-xs leading-relaxed text-muted">
-                {text}
-              </p>
-            </div>
+              <div className="process-copy">
+                <p className="font-serif text-xl text-ink" aria-hidden="true">
+                  {String(i + 1).padStart(2, "0")}
+                </p>
+                <h3 className="mt-1 text-sm font-semibold text-ink">{title}</h3>
+                <p className="mt-2 max-w-[240px] text-xs leading-relaxed text-muted lg:mx-auto lg:max-w-[200px]">
+                  {text}
+                </p>
+              </div>
+            </li>
           ))}
-        </div>
+        </ol>
       </div>
     </section>
   );

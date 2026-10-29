@@ -88,11 +88,11 @@ export default function Projects() {
         {filter === "All" ? (
           <div className="grid gap-2 lg:grid-cols-2">
             <Card p={projects[0]} className="aspect-[4/3] lg:aspect-auto lg:h-full" />
-            <div className="grid grid-rows-2 gap-2">
+            <div className="grid gap-2 lg:grid-rows-2">
               <Card p={projects[1]} className="aspect-[16/7]" />
               <div className="grid grid-cols-2 gap-2">
-                <Card p={projects[2]} className="aspect-[4/3]" />
-                <Card p={projects[3]} className="aspect-[4/3]" />
+                <Card p={projects[2]} className="aspect-[4/3] lg:aspect-auto" />
+                <Card p={projects[3]} className="aspect-[4/3] lg:aspect-auto" />
               </div>
             </div>
           </div>

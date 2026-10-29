@@ -12,6 +12,135 @@
   --color-line: #ece5da;
 }
 
+/* The process fills once: each icon, then its connector, then the next icon. */
+.process-progress {
+  display: grid;
+  gap: 2rem;
+  list-style: none;
+  padding: 0;
+}
+
+.process-step {
+  position: relative;
+  display: grid;
+  grid-template-columns: 4rem minmax(0, 1fr);
+  column-gap: 1.5rem;
+  min-height: 6.5rem;
+}
+
+.process-icon {
+  position: relative;
+  display: grid;
+  width: 4rem;
+  height: 4rem;
+  place-items: center;
+  overflow: hidden;
+  border: 1px solid var(--color-gold-light);
+  border-radius: 50%;
+  background: var(--color-cream);
+  color: var(--color-gold-dark);
+}
+
+.process-icon::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: var(--color-gold);
+  transform: scaleY(0);
+  transform-origin: bottom;
+}
+
+.process-connector {
+  position: absolute;
+  top: 4rem;
+  bottom: -2rem;
+  left: calc(2rem - 1px);
+  width: 2px;
+  background: var(--color-gold-light);
+  --process-line-start: 1, 0;
+}
+
+.process-connector::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: var(--color-gold);
+  transform: scale(var(--process-line-start));
+  transform-origin: top left;
+}
+
+.process-progress[data-started="true"] .process-icon::before {
+  animation: process-icon-fill 500ms ease-out both;
+  animation-delay: calc(var(--process-step) * 1150ms);
+}
+
+.process-progress[data-started="true"] .process-icon {
+  animation: process-icon-color 500ms ease-out both;
+  animation-delay: calc(var(--process-step) * 1150ms);
+}
+
+.process-progress[data-started="true"] .process-connector::after {
+  animation: process-line-fill 650ms ease-in-out both;
+  animation-delay: calc(var(--process-step) * 1150ms + 500ms);
+}
+
+@keyframes process-icon-fill {
+  from { transform: scaleY(0); }
+  to { transform: scaleY(1); }
+}
+
+@keyframes process-icon-color {
+  from { color: var(--color-gold-dark); border-color: var(--color-gold-light); }
+  to { color: var(--color-navy-dark); border-color: var(--color-gold); }
+}
+
+@keyframes process-line-fill {
+  from { transform: scale(var(--process-line-start)); }
+  to { transform: scale(1, 1); }
+}
+
+@media (min-width: 1024px) {
+  .process-progress {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 0;
+  }
+
+  .process-step {
+    display: block;
+    text-align: center;
+  }
+
+  .process-icon { margin-inline: auto; }
+  .process-copy { margin-top: 1.5rem; padding-inline: 0.75rem; }
+
+  .process-connector {
+    top: calc(2rem - 1px);
+    bottom: auto;
+    left: calc(50% + 2rem);
+    width: calc(100% - 4rem);
+    height: 2px;
+    --process-line-start: 0, 1;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .process-progress .process-icon,
+  .process-progress .process-icon::before,
+  .process-progress .process-connector::after {
+    animation: none !important;
+  }
+
+  .process-progress .process-icon {
+    color: var(--color-navy-dark);
+    border-color: var(--color-gold);
+  }
+
+  .process-progress .process-icon::before,
+  .process-progress .process-connector::after {
+    transform: scale(1, 1);
+  }
+}
+
 @theme inline {
   --font-serif: var(--font-marcellus), Georgia, serif;
   --font-sans: var(--font-poppins), ui-sans-serif, system-ui, sans-serif;
