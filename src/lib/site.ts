@@ -4,6 +4,9 @@ export const contact = {
   phone: "+91 98765 43210",
   phoneHref: "tel:+919876543210",
   email: "hello@classychoiceinteriors.com",
+  whatsappHref:
+    "https://wa.me/919876543210?text=" +
+    encodeURIComponent("Hi Classy Choice Interiors, I'd like to know more about your interior design services."),
   studioName: "Avadi Studio (Head Office)",
   addressLines: ["No. 173, Poonamallee – Avadi High Road,", "Avadi, Chennai, Tamil Nadu – 600 054"],
   hours: "Mon – Sat: 9:00 AM – 6:00 PM",

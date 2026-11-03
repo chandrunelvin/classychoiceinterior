@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Marcellus, Poppins } from "next/font/google";
 import "./globals.css";
+import FloatingContact from "@/components/FloatingContact";
 
 const marcellus = Marcellus({
   variable: "--font-marcellus",
@@ -29,6 +30,7 @@ export default function RootLayout({
     <html lang="en">
       <body className={`${marcellus.variable} ${poppins.variable} antialiased`}>
         {children}
+        <FloatingContact />
       </body>
     </html>
   );
