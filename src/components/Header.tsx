@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { usePathname } from "next/navigation";
 import { ArrowRight, Building2, ChevronDown, Home, Menu, Phone, X } from "lucide-react";
 import Logo from "./Logo";
 
@@ -8,53 +9,53 @@ type Link = { label: string; href: string };
 type Group = { title: string; href: string; icon: typeof Home; links: Link[] };
 type NavItem = { label: string; href: string; children?: Link[]; groups?: Group[] };
 
-// "#residential" / "#commercial" open the matching tab in the Services section.
+// "/#residential" / "/#commercial" open the matching tab in the Services section.
 const whatWeDo: Group[] = [
   {
     title: "Residential Interiors",
-    href: "#residential",
+    href: "/#residential",
     icon: Home,
     links: [
-      { label: "Modular Kitchen", href: "#residential" },
-      { label: "Living Room", href: "#residential" },
-      { label: "Bedroom", href: "#residential" },
-      { label: "Dining Room", href: "#residential" },
-      { label: "Wardrobes", href: "#residential" },
-      { label: "Full Home Interiors", href: "#residential" },
+      { label: "Modular Kitchen", href: "/#residential" },
+      { label: "Living Room", href: "/#residential" },
+      { label: "Bedroom", href: "/#residential" },
+      { label: "Dining Room", href: "/#residential" },
+      { label: "Wardrobes", href: "/#residential" },
+      { label: "Full Home Interiors", href: "/#residential" },
     ],
   },
   {
     title: "Commercial Interiors",
-    href: "#commercial",
+    href: "/#commercial",
     icon: Building2,
     links: [
-      { label: "Office Interiors", href: "#commercial" },
-      { label: "Restaurants & Cafés", href: "#commercial" },
-      { label: "Retail Stores & Showrooms", href: "#commercial" },
-      { label: "Hotels & Hospitality", href: "#commercial" },
-      { label: "Clinics & Healthcare", href: "#commercial" },
-      { label: "Conference & Meeting Rooms", href: "#commercial" },
+      { label: "Office Interiors", href: "/#commercial" },
+      { label: "Restaurants & Cafés", href: "/#commercial" },
+      { label: "Retail Stores & Showrooms", href: "/#commercial" },
+      { label: "Hotels & Hospitality", href: "/#commercial" },
+      { label: "Clinics & Healthcare", href: "/#commercial" },
+      { label: "Conference & Meeting Rooms", href: "/#commercial" },
     ],
   },
 ];
 
 const nav: NavItem[] = [
-  { label: "Home", href: "#" },
-  { label: "Company", href: "#about" },
-  { label: "What We Do", href: "#services", groups: whatWeDo },
+  { label: "Home", href: "/" },
+  { label: "Company", href: "/about" },
+  { label: "What We Do", href: "/#services", groups: whatWeDo },
   {
     label: "Products",
-    href: "#services",
+    href: "/#services",
     children: [
-      { label: "Modular Kitchens", href: "#residential" },
-      { label: "Wardrobes", href: "#residential" },
-      { label: "TV Units", href: "#residential" },
-      { label: "Storage Solutions", href: "#residential" },
-      { label: "Office Furniture", href: "#commercial" },
+      { label: "Modular Kitchens", href: "/#residential" },
+      { label: "Wardrobes", href: "/#residential" },
+      { label: "TV Units", href: "/#residential" },
+      { label: "Storage Solutions", href: "/#residential" },
+      { label: "Office Furniture", href: "/#commercial" },
     ],
   },
   { label: "Offers", href: "#contact" },
-  { label: "Gallery", href: "#projects" },
+  { label: "Gallery", href: "/#projects" },
   {
     label: "Locations",
     href: "#contact",
@@ -64,7 +65,7 @@ const nav: NavItem[] = [
       { label: "Bangalore", href: "#contact" },
     ],
   },
-  { label: "Blogs", href: "#blogs" },
+  { label: "Blogs", href: "/#blogs" },
   { label: "Contact", href: "#contact" },
 ];
 
@@ -72,6 +73,7 @@ export default function Header() {
   const [open, setOpen] = useState(false);
   const [expanded, setExpanded] = useState<string | null>(null);
   const [scrolled, setScrolled] = useState(false);
+  const pathname = usePathname();
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 40);
@@ -102,12 +104,18 @@ export default function Header() {
         <nav className="hidden items-center gap-6 xl:flex 2xl:gap-9">
           {nav.map((item) => {
             const hasMenu = item.children || item.groups;
+            const current = item.href === pathname;
             return (
               <div key={item.label} className="group relative">
                 <a
                   href={item.href}
-                  className={`flex items-center gap-1.5 whitespace-nowrap py-9 text-[13px] font-medium uppercase tracking-wide transition hover:text-gold ${
-                    solid ? "text-ink/85" : "text-white"
+                  aria-current={current ? "page" : undefined}
+                  className={`relative flex items-center gap-1.5 whitespace-nowrap py-9 text-[13px] font-medium uppercase tracking-wide transition hover:text-gold ${
+                    current
+                      ? "text-gold after:absolute after:inset-x-0 after:bottom-6 after:h-0.5 after:bg-gold"
+                      : solid
+                        ? "text-ink/85"
+                        : "text-white"
                   }`}
                 >
                   {item.label}
@@ -211,7 +219,9 @@ export default function Header() {
                     <a
                       href={item.href}
                       onClick={closeMobile}
-                      className="block py-3 text-sm font-medium uppercase tracking-wide text-ink/85"
+                      className={`block py-3 text-sm font-medium uppercase tracking-wide ${
+                        item.href === pathname ? "text-gold" : "text-ink/85"
+                      }`}
                     >
                       {item.label}
                     </a>

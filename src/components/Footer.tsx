@@ -1,7 +1,13 @@
 import { Clock, Mail, MapPin, MessageCircle } from "lucide-react";
 import Logo from "./Logo";
 
-const quickLinks = ["Home", "About Us", "Projects", "Blogs", "Contact Us"];
+const quickLinks = [
+  { label: "Home", href: "/" },
+  { label: "About Us", href: "/about" },
+  { label: "Projects", href: "/#projects" },
+  { label: "Blogs", href: "/#blogs" },
+  { label: "Contact Us", href: "#contact" },
+];
 const services = [
   "Modular Kitchen",
   "Living Room",
@@ -50,9 +56,9 @@ export default function Footer() {
           <h4 className="text-sm font-medium text-white">Quick Links</h4>
           <ul className="mt-5 space-y-2.5 text-xs">
             {quickLinks.map((l) => (
-              <li key={l}>
-                <a href="#" className="hover:text-gold">
-                  {l}
+              <li key={l.label}>
+                <a href={l.href} className="hover:text-gold">
+                  {l.label}
                 </a>
               </li>
             ))}
@@ -65,7 +71,7 @@ export default function Footer() {
             {services.map((l) => (
               <li key={l}>
                 <a
-                  href={l === "Commercial Interiors" ? "#commercial" : "#residential"}
+                  href={l === "Commercial Interiors" ? "/#commercial" : "/#residential"}
                   className="hover:text-gold"
                 >
                   {l}
