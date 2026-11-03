@@ -2,8 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { usePathname } from "next/navigation";
-import { ArrowRight, Building2, ChevronDown, Home, Menu, Phone, X } from "lucide-react";
-import { contact } from "@/lib/site";
+import { ArrowRight, Building2, ChevronDown, Home, Menu, X } from "lucide-react";
 import Logo from "./Logo";
 
 type Link = { label: string; href: string };
@@ -67,6 +66,7 @@ const nav: NavItem[] = [
     ],
   },
   { label: "Blogs", href: "/blogs" },
+  { label: "Price Calculator", href: "/price-calculator" },
   { label: "Contact", href: "/contact" },
 ];
 
@@ -102,7 +102,7 @@ export default function Header() {
       <div className="container-x flex h-20 items-center justify-between gap-6 xl:h-24">
         <Logo light={!solid} className="h-14 xl:h-[72px]" />
 
-        <nav className="hidden items-center gap-6 xl:flex 2xl:gap-9">
+        <nav className="hidden items-center gap-4 xl:flex 2xl:gap-8">
           {nav.map((item) => {
             const hasMenu = item.children || item.groups;
             const current = item.href === pathname || (item.href !== "/" && pathname.startsWith(`${item.href}/`));
@@ -174,16 +174,6 @@ export default function Header() {
             );
           })}
         </nav>
-
-        <a
-          href={contact.phoneHref}
-          aria-label="Call us"
-          className={`hidden h-10 w-10 shrink-0 place-items-center rounded-full border transition hover:border-gold hover:bg-gold hover:text-white xl:grid ${
-            solid ? "border-gold/40 text-gold" : "border-white/50 text-white"
-          }`}
-        >
-          <Phone className="h-4 w-4" />
-        </a>
 
         <button
           className={`grid h-10 w-10 place-items-center rounded-md border xl:hidden ${
