@@ -66,7 +66,7 @@ const nav: NavItem[] = [
       { label: "Bangalore", href: "/contact#location" },
     ],
   },
-  { label: "Blogs", href: "/#blogs" },
+  { label: "Blogs", href: "/blogs" },
   { label: "Contact", href: "/contact" },
 ];
 
@@ -105,7 +105,7 @@ export default function Header() {
         <nav className="hidden items-center gap-6 xl:flex 2xl:gap-9">
           {nav.map((item) => {
             const hasMenu = item.children || item.groups;
-            const current = item.href === pathname;
+            const current = item.href === pathname || (item.href !== "/" && pathname.startsWith(`${item.href}/`));
             return (
               <div key={item.label} className="group relative">
                 <a
