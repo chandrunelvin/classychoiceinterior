@@ -9,7 +9,7 @@ import StudioLocation from "@/components/contact/StudioLocation";
 export const metadata: Metadata = {
   title: "Contact Us | Classy Choice Interiors",
   description:
-    "Get in touch with Classy Choice Interiors. Call, email or visit our studio in T. Nagar, Chennai, or send us a message to book a free consultation.",
+    "Get in touch with Classy Choice Interiors. Call, email or visit our studio in Avadi, Chennai, or send us a message to book a free consultation.",
 };
 
 export default function ContactPage() {

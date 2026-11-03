@@ -56,7 +56,7 @@ const nav: NavItem[] = [
     ],
   },
   { label: "Offers", href: "#contact" },
-  { label: "Gallery", href: "/#projects" },
+  { label: "Gallery", href: "/gallery" },
   {
     label: "Locations",
     href: "/contact#location",

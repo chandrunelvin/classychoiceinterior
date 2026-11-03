@@ -17,10 +17,11 @@ export default function StudioLocation() {
         <div className="mt-8 grid gap-6 lg:grid-cols-[1.25fr_1fr]">
           <div className="relative min-h-[300px] overflow-hidden rounded-xl border border-line shadow-sm">
             <iframe
-              title="Map showing the Classy Choice Interiors studio in T. Nagar, Chennai"
+              title="Map showing the Classy Choice Interiors studio in Avadi, Chennai"
               src={mapEmbedUrl}
               loading="lazy"
-              referrerPolicy="no-referrer-when-downgrade"
+              referrerPolicy="strict-origin-when-cross-origin"
+              allowFullScreen
               className="absolute inset-0 h-full w-full border-0"
             />
           </div>
@@ -30,7 +31,7 @@ export default function StudioLocation() {
               <MapPin className="mt-0.5 h-7 w-7 shrink-0 text-gold" strokeWidth={1.5} />
               <div>
                 <h3 className="text-base font-semibold text-ink sm:text-lg">
-                  Chennai Studio (Head Office)
+                  {contact.studioName}
                 </h3>
                 {contact.addressLines.map((l) => (
                   <p key={l} className="text-sm leading-relaxed text-ink/80 sm:text-[15px]">

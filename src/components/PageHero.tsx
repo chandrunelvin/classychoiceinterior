@@ -4,6 +4,8 @@ import { ArrowRight, ChevronRight } from "lucide-react";
 
 type PageHeroProps = {
   title: string;
+  // Breadcrumb label; defaults to the title.
+  crumb?: string;
   subtitle: React.ReactNode;
   ctaHref?: string;
   ctaLabel?: string;
@@ -12,6 +14,7 @@ type PageHeroProps = {
 // Banner at the top of inner pages: breadcrumb, title, subtitle and a CTA button.
 export default function PageHero({
   title,
+  crumb = title,
   subtitle,
   ctaHref = "#contact",
   ctaLabel = "Book a Free Consultation",
@@ -39,7 +42,7 @@ export default function PageHero({
           </Link>
           <ChevronRight className="h-3.5 w-3.5" />
           <span className="text-gold" aria-current="page">
-            {title}
+            {crumb}
           </span>
         </nav>
         <h1 className="mt-5 font-serif text-5xl text-white sm:text-6xl">{title}</h1>
