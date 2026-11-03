@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import CTA from "@/components/CTA";
-import AboutHero from "@/components/about/AboutHero";
+import PageHero from "@/components/PageHero";
 import WhoWeAre from "@/components/about/WhoWeAre";
 import MissionVision from "@/components/about/MissionVision";
 import CoreValues from "@/components/about/CoreValues";
@@ -19,7 +19,10 @@ export default function AboutPage() {
     <>
       <Header />
       <main>
-        <AboutHero />
+        <PageHero
+          title="About Us"
+          subtitle="Designing Functional, Aesthetic and Personalised Spaces for Modern Living."
+        />
         <WhoWeAre />
         <MissionVision />
         <CoreValues />
@@ -28,7 +31,6 @@ export default function AboutPage() {
           eyebrow={"Let’s Build Your Dream Space"}
           title="Ready to Transform Your Home?"
           buttonLabel="Book a Free Consultation"
-          buttonHref="tel:+910000000000"
         />
       </main>
       <Footer />

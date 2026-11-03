@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { usePathname } from "next/navigation";
 import { ArrowRight, Building2, ChevronDown, Home, Menu, Phone, X } from "lucide-react";
+import { contact } from "@/lib/site";
 import Logo from "./Logo";
 
 type Link = { label: string; href: string };
@@ -58,15 +59,15 @@ const nav: NavItem[] = [
   { label: "Gallery", href: "/#projects" },
   {
     label: "Locations",
-    href: "#contact",
+    href: "/contact#location",
     children: [
-      { label: "Chennai", href: "#contact" },
-      { label: "Coimbatore", href: "#contact" },
-      { label: "Bangalore", href: "#contact" },
+      { label: "Chennai", href: "/contact#location" },
+      { label: "Coimbatore", href: "/contact#location" },
+      { label: "Bangalore", href: "/contact#location" },
     ],
   },
   { label: "Blogs", href: "/#blogs" },
-  { label: "Contact", href: "#contact" },
+  { label: "Contact", href: "/contact" },
 ];
 
 export default function Header() {
@@ -175,7 +176,7 @@ export default function Header() {
         </nav>
 
         <a
-          href="tel:+910000000000"
+          href={contact.phoneHref}
           aria-label="Call us"
           className={`hidden h-10 w-10 shrink-0 place-items-center rounded-full border transition hover:border-gold hover:bg-gold hover:text-white xl:grid ${
             solid ? "border-gold/40 text-gold" : "border-white/50 text-white"

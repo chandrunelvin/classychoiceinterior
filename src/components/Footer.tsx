@@ -1,4 +1,5 @@
-import { Clock, Mail, MapPin, MessageCircle } from "lucide-react";
+import { Clock, Mail, MapPin, Phone } from "lucide-react";
+import { contact } from "@/lib/site";
 import Logo from "./Logo";
 
 const quickLinks = [
@@ -6,7 +7,7 @@ const quickLinks = [
   { label: "About Us", href: "/about" },
   { label: "Projects", href: "/#projects" },
   { label: "Blogs", href: "/#blogs" },
-  { label: "Contact Us", href: "#contact" },
+  { label: "Contact Us", href: "/contact" },
 ];
 const services = [
   "Modular Kitchen",
@@ -85,26 +86,28 @@ export default function Footer() {
           <h4 className="text-sm font-medium text-white">Contact Info</h4>
           <ul className="mt-5 space-y-3.5 text-xs">
             <li className="flex gap-3">
-              <MessageCircle className="h-4 w-4 shrink-0 text-gold" />
-              <span>
-                Get in touch with us
-                <br />
-                for a free consultation.
-              </span>
-            </li>
-            <li className="flex gap-3">
-              <MapPin className="h-4 w-4 shrink-0 text-gold" />
-              Your Location, City
-            </li>
-            <li className="flex gap-3">
-              <Mail className="h-4 w-4 shrink-0 text-gold" />
-              <a href="mailto:yourname@domain.com" className="hover:text-gold">
-                yourname@domain.com
+              <Phone className="h-4 w-4 shrink-0 text-gold" />
+              <a href={contact.phoneHref} className="hover:text-gold">
+                {contact.phone}
               </a>
             </li>
             <li className="flex gap-3">
+              <Mail className="h-4 w-4 shrink-0 text-gold" />
+              <a href={`mailto:${contact.email}`} className="break-all hover:text-gold">
+                {contact.email}
+              </a>
+            </li>
+            <li className="flex gap-3">
+              <MapPin className="h-4 w-4 shrink-0 text-gold" />
+              <span>
+                {contact.addressLines[0]}
+                <br />
+                {contact.addressLines[1]}
+              </span>
+            </li>
+            <li className="flex gap-3">
               <Clock className="h-4 w-4 shrink-0 text-gold" />
-              Mon - Sat: 9:00 AM - 6:00 PM
+              {contact.hours}
             </li>
           </ul>
         </div>

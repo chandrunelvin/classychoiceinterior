@@ -2,7 +2,20 @@ import Image from "next/image";
 import Link from "next/link";
 import { ArrowRight, ChevronRight } from "lucide-react";
 
-export default function AboutHero() {
+type PageHeroProps = {
+  title: string;
+  subtitle: React.ReactNode;
+  ctaHref?: string;
+  ctaLabel?: string;
+};
+
+// Banner at the top of inner pages: breadcrumb, title, subtitle and a CTA button.
+export default function PageHero({
+  title,
+  subtitle,
+  ctaHref = "#contact",
+  ctaLabel = "Book a Free Consultation",
+}: PageHeroProps) {
   return (
     <section className="relative h-[460px] overflow-hidden sm:h-[500px]">
       <Image
@@ -26,16 +39,16 @@ export default function AboutHero() {
           </Link>
           <ChevronRight className="h-3.5 w-3.5" />
           <span className="text-gold" aria-current="page">
-            About Us
+            {title}
           </span>
         </nav>
-        <h1 className="mt-5 font-serif text-5xl text-white sm:text-6xl">About Us</h1>
+        <h1 className="mt-5 font-serif text-5xl text-white sm:text-6xl">{title}</h1>
         <p className="mt-5 max-w-md text-[15px] leading-relaxed text-white/85 sm:text-base">
-          Designing Functional, Aesthetic and Personalised Spaces for Modern Living.
+          {subtitle}
         </p>
         <div className="mt-8">
-          <a href="#contact" className="btn-gold">
-            Book a Free Consultation <ArrowRight className="h-4 w-4" />
+          <a href={ctaHref} className="btn-gold">
+            {ctaLabel} <ArrowRight className="h-4 w-4" />
           </a>
         </div>
       </div>
