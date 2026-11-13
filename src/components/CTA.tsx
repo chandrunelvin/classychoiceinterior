@@ -10,6 +10,8 @@ type CTAProps = {
   buttonHref?: string;
   // Rounded card inside the page width instead of a full-width band.
   boxed?: boolean;
+  // Background photo; defaults to the living room shown on the home page.
+  image?: string;
 };
 
 export default function CTA({
@@ -19,17 +21,18 @@ export default function CTA({
   buttonLabel = "Talk to Our Designer",
   buttonHref = contact.phoneHref,
   boxed = false,
+  image,
 }: CTAProps) {
   const band = (
     <div className={`relative overflow-hidden ${boxed ? "rounded-2xl shadow-xl" : ""}`}>
       <Image
-        src="/images/contact-bg.webp"
+        src={image ?? "/images/contact-bg.webp"}
         alt=""
         fill
         sizes="100vw"
         className="object-cover"
       />
-      <div className={`absolute inset-0 ${boxed ? "bg-navy/60" : "bg-navy/45"}`} />
+      <div className={`absolute inset-0 ${boxed || image ? "bg-navy/70" : "bg-navy/45"}`} />
       <div className="container-x relative py-16 text-center">
         <p className="text-[11px] uppercase tracking-[0.3em] text-white/70">{eyebrow}</p>
         <h2 className="mt-3 font-serif text-3xl text-white sm:text-4xl">{title}</h2>

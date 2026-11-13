@@ -3,7 +3,7 @@ import type { CommercialPage } from "@/lib/commercial";
 // Navy band of four figures with a gold arc on the right.
 export default function CommercialStats({ stats }: { stats: CommercialPage["stats"] }) {
   return (
-    <section className="bg-cream/60 pb-6">
+    <section className="bg-cream/60 pb-20">
       <div className="container-x">
         <div className="relative overflow-hidden rounded-2xl bg-navy px-6 py-9 shadow-xl">
           <span

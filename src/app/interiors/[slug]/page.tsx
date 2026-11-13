@@ -2,11 +2,11 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
+import CTA from "@/components/CTA";
 import PageHero from "@/components/PageHero";
 import SpaceFeatures from "@/components/space/SpaceFeatures";
 import SpaceWhy from "@/components/space/SpaceWhy";
 import SpaceTypes from "@/components/space/SpaceTypes";
-import SpaceCTA from "@/components/space/SpaceCTA";
 import { getSpace, spaces } from "@/lib/spaces";
 
 type Props = { params: Promise<{ slug: string }> };
@@ -43,7 +43,12 @@ export default async function SpacePage({ params }: Props) {
         <SpaceFeatures features={space.features} />
         <SpaceWhy why={space.why} name={space.name} />
         <SpaceTypes types={space.types} />
-        <SpaceCTA icon={space.icon} title={space.cta.title} text={space.cta.text} />
+        <CTA
+          title={space.cta.title}
+          text={space.cta.text}
+          buttonLabel="Book a Free Consultation"
+          buttonHref="/contact#enquiry"
+        />
       </main>
       <Footer />
     </>

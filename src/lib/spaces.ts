@@ -1,13 +1,10 @@
 import {
   Armchair,
-  BedDouble,
   Box,
   Clock,
-  CookingPot,
   DoorClosed,
   Gem,
   Handshake,
-  House,
   Lamp,
   LayoutPanelLeft,
   Leaf,
@@ -18,11 +15,9 @@ import {
   Ruler,
   ShieldCheck,
   Shirt,
-  Sofa,
   Sparkles,
   Tv,
   Users,
-  UtensilsCrossed,
   type LucideIcon,
 } from "lucide-react";
 
@@ -31,7 +26,6 @@ import {
 export type Space = {
   slug: string;
   name: string;
-  icon: LucideIcon;
   metaDescription: string;
   hero: { title: string; subtitle: string; image: string; imageAlt: string };
   features: { icon: LucideIcon; title: string; text: string }[];
@@ -57,7 +51,6 @@ export const spaces: Space[] = [
   {
     slug: "modular-kitchen",
     name: "Modular Kitchen",
-    icon: CookingPot,
     metaDescription:
       "Stylish, functional and space-efficient modular kitchens in L-shaped, U-shaped, parallel, island and straight layouts.",
     hero: {
@@ -101,7 +94,6 @@ export const spaces: Space[] = [
   {
     slug: "living-room",
     name: "Living Room",
-    icon: Sofa,
     metaDescription:
       "Elegant living room interiors with custom TV units, wall panelling, lighting and display storage.",
     hero: {
@@ -146,7 +138,6 @@ export const spaces: Space[] = [
   {
     slug: "bedroom",
     name: "Bedroom",
-    icon: BedDouble,
     metaDescription:
       "Calm, cosy bedroom interiors with bed back panels, wardrobes, study units and soft lighting.",
     hero: {
@@ -190,7 +181,6 @@ export const spaces: Space[] = [
   {
     slug: "dining-room",
     name: "Dining Room",
-    icon: UtensilsCrossed,
     metaDescription:
       "Beautiful dining room interiors with crockery units, statement lighting and space-smart dining layouts.",
     hero: {
@@ -234,7 +224,6 @@ export const spaces: Space[] = [
   {
     slug: "wardrobes",
     name: "Wardrobes",
-    icon: DoorClosed,
     metaDescription:
       "Custom sliding, hinged and glass-front wardrobes with smart internal storage, built to fit your bedroom.",
     hero: {
@@ -277,7 +266,6 @@ export const spaces: Space[] = [
   {
     slug: "full-home-interiors",
     name: "Full Home Interiors",
-    icon: House,
     metaDescription:
       "Complete home interiors for apartments, villas and independent houses: design, 3D visualisation, execution and handover by one team.",
     hero: {
