@@ -1,10 +1,10 @@
 "use client";
 
-import { useState, type FormEvent } from "react";
+import { useId, useState, type FormEvent } from "react";
 import { ArrowRight, CheckCircle2, ChevronDown, Loader2 } from "lucide-react";
 import { contact } from "@/lib/site";
 
-const services = [
+const defaultServices = [
   "Modular Kitchen",
   "Living Room",
   "Bedroom",
@@ -34,9 +34,29 @@ function FloatingLabel({ htmlFor, children }: { htmlFor: string; children: strin
 
 type Status = "idle" | "sending" | "sent" | "error";
 
-export default function ContactForm() {
+type ContactFormProps = {
+  options?: string[];
+  selectLabel?: string;
+  messageLabel?: string;
+  submitLabel?: string;
+  // Stacks every field in one column with tighter spacing (for narrow cards).
+  compact?: boolean;
+  // Page the enquiry came from, shown with the submission in Netlify.
+  source?: string;
+};
+
+export default function ContactForm({
+  options = defaultServices,
+  selectLabel = "Service Interested In",
+  messageLabel = "Your Message",
+  submitLabel = "Submit Enquiry",
+  compact = false,
+  source = "Contact page",
+}: ContactFormProps) {
   const [status, setStatus] = useState<Status>("idle");
   const [service, setService] = useState("");
+  const uid = useId();
+  const fid = (name: string) => `${uid}-${name}`;
 
   // Posts to the static form in public/__forms.html, which Netlify Forms detects at deploy time.
   async function onSubmit(e: FormEvent<HTMLFormElement>) {
@@ -80,22 +100,23 @@ export default function ContactForm() {
   }
 
   return (
-    <form name="contact" onSubmit={onSubmit} className="mt-6 space-y-4">
+    <form name="contact" onSubmit={onSubmit} className={compact ? "mt-5 space-y-3" : "mt-6 space-y-4"}>
       <input type="hidden" name="form-name" value="contact" />
+      <input type="hidden" name="page" value={source} />
       <p className="hidden">
         <label>
           Leave this empty: <input name="bot-field" tabIndex={-1} autoComplete="off" />
         </label>
       </p>
 
-      <div className="grid gap-4 sm:grid-cols-2">
+      <div className={compact ? "space-y-3" : "grid gap-4 sm:grid-cols-2"}>
         <div className="relative">
-          <input id="name" name="name" required autoComplete="name" placeholder=" " className={fieldClass} />
-          <FloatingLabel htmlFor="name">Your Name</FloatingLabel>
+          <input id={fid("name")} name="name" required autoComplete="name" placeholder=" " className={fieldClass} />
+          <FloatingLabel htmlFor={fid("name")}>Your Name</FloatingLabel>
         </div>
         <div className="relative">
           <input
-            id="phone"
+            id={fid("phone")}
             name="phone"
             type="tel"
             required
@@ -105,18 +126,18 @@ export default function ContactForm() {
             placeholder=" "
             className={fieldClass}
           />
-          <FloatingLabel htmlFor="phone">Phone Number</FloatingLabel>
+          <FloatingLabel htmlFor={fid("phone")}>Phone Number</FloatingLabel>
         </div>
       </div>
 
       <div className="relative">
-        <input id="email" name="email" type="email" required autoComplete="email" placeholder=" " className={fieldClass} />
-        <FloatingLabel htmlFor="email">Email Address</FloatingLabel>
+        <input id={fid("email")} name="email" type="email" required autoComplete="email" placeholder=" " className={fieldClass} />
+        <FloatingLabel htmlFor={fid("email")}>Email Address</FloatingLabel>
       </div>
 
       <div className="relative">
         <select
-          id="service"
+          id={fid("service")}
           name="service"
           required
           value={service}
@@ -124,23 +145,23 @@ export default function ContactForm() {
           className={`${fieldClass} cursor-pointer appearance-none py-3.5 pr-10 ${service ? "" : "text-transparent"}`}
         >
           <option value="" disabled hidden />
-          {services.map((s) => (
+          {options.map((s) => (
             <option key={s} value={s} className="text-ink">
               {s}
             </option>
           ))}
         </select>
         {!service && (
-          <label htmlFor="service" className="pointer-events-none absolute left-4 top-3.5 text-sm text-muted">
-            Service Interested In <span className="text-red-500">*</span>
+          <label htmlFor={fid("service")} className="pointer-events-none absolute left-4 top-3.5 text-sm text-muted">
+            {selectLabel} <span className="text-red-500">*</span>
           </label>
         )}
         <ChevronDown className="pointer-events-none absolute right-4 top-1/2 h-4 w-4 -translate-y-1/2 text-ink/70" />
       </div>
 
       <div className="relative">
-        <textarea id="message" name="message" required rows={4} placeholder=" " className={`${fieldClass} resize-none`} />
-        <FloatingLabel htmlFor="message">Your Message</FloatingLabel>
+        <textarea id={fid("message")} name="message" required rows={compact ? 3 : 4} placeholder=" " className={`${fieldClass} resize-none`} />
+        <FloatingLabel htmlFor={fid("message")}>{messageLabel}</FloatingLabel>
       </div>
 
       {status === "error" && (
@@ -168,7 +189,7 @@ export default function ContactForm() {
           </>
         ) : (
           <>
-            Submit Enquiry <ArrowRight className="h-4 w-4" />
+            {submitLabel} <ArrowRight className="h-4 w-4" />
           </>
         )}
       </button>
