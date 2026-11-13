@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import Image from "next/image";
 import { ArrowRight, Building2, Home } from "lucide-react";
+import { spaceHref } from "@/lib/spaces";
 
 const tabs = [
   {
@@ -98,7 +99,7 @@ export default function Services() {
           {tab.services.map((s) => (
             <a
               key={s.title}
-              href="#contact"
+              href={spaceHref(s.title) ?? "#contact"}
               className="group overflow-hidden rounded-sm border border-line bg-white shadow-sm transition hover:-translate-y-1 hover:shadow-lg"
             >
               <div className="relative aspect-[16/10] overflow-hidden">

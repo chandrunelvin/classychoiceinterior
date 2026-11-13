@@ -1,5 +1,6 @@
 import { Clock, Mail, MapPin, Phone } from "lucide-react";
 import { contact } from "@/lib/site";
+import { spaceHref } from "@/lib/spaces";
 import Logo from "./Logo";
 
 const quickLinks = [
@@ -74,7 +75,7 @@ export default function Footer() {
             {services.map((l) => (
               <li key={l}>
                 <a
-                  href={l === "Commercial Interiors" ? "/#commercial" : "/#residential"}
+                  href={l === "Commercial Interiors" ? "/#commercial" : (spaceHref(l) ?? "/#residential")}
                   className="hover:text-gold"
                 >
                   {l}

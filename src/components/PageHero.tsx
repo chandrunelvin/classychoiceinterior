@@ -9,6 +9,8 @@ type PageHeroProps = {
   subtitle: React.ReactNode;
   ctaHref?: string;
   ctaLabel?: string;
+  image?: string;
+  imageAlt?: string;
 };
 
 // Banner at the top of inner pages: breadcrumb, title, subtitle and a CTA button.
@@ -18,12 +20,14 @@ export default function PageHero({
   subtitle,
   ctaHref = "#contact",
   ctaLabel = "Book a Free Consultation",
+  image = "/images/hero-banner.webp",
+  imageAlt = "Luxury living room with marble TV wall and wooden panelling",
 }: PageHeroProps) {
   return (
-    <section className="relative h-[460px] overflow-hidden sm:h-[500px]">
+    <section className="relative flex min-h-[460px] items-center overflow-hidden sm:min-h-[500px]">
       <Image
-        src="/images/hero-banner.webp"
-        alt="Luxury living room with marble TV wall and wooden panelling"
+        src={image}
+        alt={imageAlt}
         fill
         priority
         sizes="100vw"
@@ -32,7 +36,7 @@ export default function PageHero({
       <div className="absolute inset-0 bg-gradient-to-r from-black/80 via-black/45 to-transparent" />
       <div className="absolute inset-x-0 top-0 h-32 bg-gradient-to-b from-black/50 to-transparent" />
 
-      <div className="container-x relative flex h-full flex-col justify-center pt-20 xl:pt-24">
+      <div className="container-x relative pb-16 pt-28 xl:pt-32">
         <nav
           aria-label="Breadcrumb"
           className="flex items-center gap-2 text-[11px] font-medium uppercase tracking-[0.25em] text-white/85"
@@ -45,7 +49,9 @@ export default function PageHero({
             {crumb}
           </span>
         </nav>
-        <h1 className="mt-5 font-serif text-5xl text-white sm:text-6xl">{title}</h1>
+        <h1 className="mt-5 max-w-2xl font-serif text-5xl leading-[1.1] text-white sm:text-6xl">
+          {title}
+        </h1>
         <p className="mt-5 max-w-md text-[15px] leading-relaxed text-white/85 sm:text-base">
           {subtitle}
         </p>
