@@ -21,7 +21,7 @@ const whatWeDo: Group[] = [
       { label: "Bedroom", href: "/interiors/bedroom" },
       { label: "Dining Room", href: "/interiors/dining-room" },
       { label: "Wardrobes", href: "/interiors/wardrobes" },
-      { label: "Full Home Interiors", href: "/#residential" },
+      { label: "Full Home Interiors", href: "/interiors/full-home-interiors" },
     ],
   },
   {

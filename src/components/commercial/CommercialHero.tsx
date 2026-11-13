@@ -44,11 +44,11 @@ export default function CommercialHero({ page }: { page: CommercialPage }) {
             {hero.subtitle}
           </p>
 
-          <ul className="mt-9 grid max-w-md grid-cols-3">
+          <ul className="mt-9 flex">
             {hero.highlights.map(({ icon: Icon, label }, i) => (
               <li
                 key={label.join(" ")}
-                className={`flex flex-col items-center px-2 text-center text-[13px] leading-snug text-white sm:px-4 sm:text-sm ${
+                className={`flex flex-col items-center px-3 text-center text-[13px] leading-snug text-white first:pl-0 sm:px-7 sm:text-sm ${
                   i > 0 ? "border-l border-white/25" : ""
                 }`}
               >
