@@ -32,8 +32,8 @@ export default function OffersPage() {
           title="Exclusive Interior Offers"
           crumb="Offers"
           subtitle="Limited-time deals on modular kitchens, wardrobes and complete home interiors."
-          image="/images/kitchen/hero.webp"
-          imageAlt="Modern modular kitchen"
+          image="/images/offers/hero-kitchen.webp"
+          imageAlt="Modern modular kitchen with warm under-cabinet lighting and island seating"
           ctaHref="/contact#enquiry"
           ctaLabel="Enquire Offer"
           badge={<OfferBadge />}
