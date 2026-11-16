@@ -11,6 +11,8 @@ type PageHeroProps = {
   ctaLabel?: string;
   image?: string;
   imageAlt?: string;
+  // Extra element shown in the top-right of the banner, e.g. an offer badge.
+  badge?: React.ReactNode;
 };
 
 // Banner at the top of inner pages: breadcrumb, title, subtitle and a CTA button.
@@ -22,6 +24,7 @@ export default function PageHero({
   ctaLabel = "Book a Free Consultation",
   image = "/images/hero-banner.webp",
   imageAlt = "Luxury living room with marble TV wall and wooden panelling",
+  badge,
 }: PageHeroProps) {
   return (
     <section className="relative flex min-h-[460px] items-center overflow-hidden sm:min-h-[500px]">
@@ -35,6 +38,12 @@ export default function PageHero({
       />
       <div className="absolute inset-0 bg-gradient-to-r from-black/80 via-black/45 to-transparent" />
       <div className="absolute inset-x-0 top-0 h-32 bg-gradient-to-b from-black/50 to-transparent" />
+
+      {badge && (
+        <div className="absolute right-4 top-24 z-10 hidden sm:right-8 sm:block lg:right-[max(2rem,calc((100vw-80rem)/2+2rem))] xl:top-28">
+          {badge}
+        </div>
+      )}
 
       <div className="container-x relative pb-16 pt-28 xl:pt-32">
         <nav

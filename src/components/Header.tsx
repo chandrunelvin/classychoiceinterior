@@ -47,14 +47,15 @@ const nav: NavItem[] = [
     label: "Products",
     href: "/#services",
     children: [
-      { label: "Modular Kitchens", href: "/interiors/modular-kitchen" },
-      { label: "Wardrobes", href: "/interiors/wardrobes" },
-      { label: "TV Units", href: "/#residential" },
-      { label: "Storage Solutions", href: "/#residential" },
-      { label: "Office Furniture", href: "/commercial/office-interiors" },
+      { label: "Kitchen", href: "/products/kitchen" },
+      { label: "Bedroom", href: "/products/bedroom" },
+      { label: "Dining Room", href: "/products/dining-room" },
+      { label: "Living Room", href: "/products/living-room" },
+      { label: "Decorative Units", href: "/products/decorative-units" },
+      { label: "Kids Room", href: "/products/kids-room" },
     ],
   },
-  { label: "Offers", href: "#contact" },
+  { label: "Offers", href: "/offers" },
   { label: "Gallery", href: "/gallery" },
   {
     label: "Locations",
@@ -114,7 +115,9 @@ export default function Header() {
                   className={`relative flex items-center gap-1.5 whitespace-nowrap py-9 text-[13px] font-medium uppercase tracking-wide transition hover:text-gold ${
                     current
                       ? "text-gold after:absolute after:inset-x-0 after:bottom-6 after:h-0.5 after:bg-gold"
-                      : solid
+                      : hasMenu
+                        ? `${solid ? "text-ink/85" : "text-white"} after:absolute after:inset-x-0 after:bottom-6 after:h-0.5 after:origin-left after:scale-x-0 after:bg-gold after:transition-transform group-hover:after:scale-x-100`
+                        : solid
                         ? "text-ink/85"
                         : "text-white"
                   }`}
@@ -126,12 +129,12 @@ export default function Header() {
                 </a>
 
                 {item.children && (
-                  <div className="invisible absolute left-0 top-full z-10 w-56 translate-y-2 rounded-md border border-line bg-white py-2 opacity-0 shadow-xl transition group-hover:visible group-hover:translate-y-0 group-hover:opacity-100">
+                  <div className="invisible absolute left-0 top-full z-10 w-64 translate-y-2 border-t-2 border-gold bg-white opacity-0 shadow-2xl transition group-hover:visible group-hover:translate-y-0 group-hover:opacity-100">
                     {item.children.map((c) => (
                       <a
                         key={c.label}
                         href={c.href}
-                        className="block px-5 py-2.5 text-[13px] text-ink/80 hover:bg-cream hover:text-gold"
+                        className="block border-b border-line px-7 py-4 text-sm font-semibold uppercase tracking-wide text-ink transition last:border-0 hover:bg-cream hover:pl-8 hover:text-gold"
                       >
                         {c.label}
                       </a>

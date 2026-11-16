@@ -12,6 +12,8 @@ type CTAProps = {
   boxed?: boolean;
   // Background photo; defaults to the living room shown on the home page.
   image?: string;
+  // Colour layer over the photo, e.g. "bg-black/50".
+  overlayClassName?: string;
 };
 
 export default function CTA({
@@ -22,6 +24,7 @@ export default function CTA({
   buttonHref = contact.phoneHref,
   boxed = false,
   image,
+  overlayClassName,
 }: CTAProps) {
   const band = (
     <div className={`relative overflow-hidden ${boxed ? "rounded-2xl shadow-xl" : ""}`}>
@@ -32,10 +35,12 @@ export default function CTA({
         sizes="100vw"
         className="object-cover"
       />
-      <div className={`absolute inset-0 ${boxed || image ? "bg-navy/70" : "bg-navy/45"}`} />
+      <div
+        className={`absolute inset-0 ${overlayClassName ?? (boxed || image ? "bg-navy/70" : "bg-navy/45")}`}
+      />
       <div className="container-x relative py-16 text-center">
-        <p className="text-[11px] uppercase tracking-[0.3em] text-white/70">{eyebrow}</p>
-        <h2 className="mt-3 font-serif text-3xl text-white sm:text-4xl">{title}</h2>
+        {eyebrow && <p className="mb-3 text-[11px] uppercase tracking-[0.3em] text-white/70">{eyebrow}</p>}
+        <h2 className=" font-serif text-3xl text-white sm:text-4xl">{title}</h2>
         {text && (
           <p className="mx-auto mt-4 max-w-xl text-sm leading-relaxed text-white/85 sm:text-[15px]">
             {text}
