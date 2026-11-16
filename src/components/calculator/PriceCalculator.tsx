@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useState } from "react";
+import { useRef, useState, type FormEvent } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import {
@@ -13,6 +13,8 @@ import {
   Gem,
   House,
   Info,
+  Lock,
+  MessageCircle,
   MessagesSquare,
   Minus,
   MousePointerClick,
@@ -48,11 +50,22 @@ import { contact } from "@/lib/site";
 
 type Mode = "kitchen" | "wardrobe" | "home";
 
+// The estimate is only revealed after the visitor fills in "Your Details",
+// which also sends their details and the estimate to our WhatsApp.
 const steps: Record<Mode, string[]> = {
-  kitchen: ["Shape", "Measurements", "Package", "Add-ons", "Estimate"],
-  wardrobe: ["Type", "Size", "Package", "Add-ons", "Estimate"],
-  home: ["Home Type", "Spaces", "Package", "Extras", "Estimate"],
+  kitchen: ["Shape", "Measurements", "Package", "Add-ons", "Your Details", "Estimate"],
+  wardrobe: ["Type", "Size", "Package", "Add-ons", "Your Details", "Estimate"],
+  home: ["Home Type", "Spaces", "Package", "Extras", "Your Details", "Estimate"],
 };
+
+type Lead = { name: string; phone: string; location: string };
+const emptyLead: Lead = { name: "", phone: "", location: "" };
+
+// Indian mobile number, with or without +91 / 0 prefix and spaces or dashes.
+const isValidPhone = (p: string) => /^(?:\+?91|0)?[6-9]\d{9}$/.test(p.replace(/[\s()-]/g, ""));
+
+const leadFieldClass =
+  "w-full rounded-md border border-line bg-white px-4 py-3 text-sm text-ink outline-none transition placeholder:text-muted/70 focus:border-gold focus:ring-2 focus:ring-gold/20";
 
 const packageIcons = { essential: Star, premium: Sparkles, luxury: Gem };
 
@@ -364,6 +377,11 @@ export default function PriceCalculator() {
   const [bedrooms, setBedrooms] = useState(2);
   const [selected, setSelected] = useState<string[]>(["kitchen", "living", "wardrobes"]);
 
+  // Visitor details collected before the estimate is shown.
+  const [lead, setLead] = useState<Lead>(emptyLead);
+  const [leadError, setLeadError] = useState("");
+  const [whatsappUrl, setWhatsappUrl] = useState("");
+
   const scrollTop = () => top.current?.scrollIntoView({ behavior: "smooth", block: "start" });
 
   const go = (n: number) => {
@@ -391,6 +409,9 @@ export default function PriceCalculator() {
     setHome("2bhk");
     setBedrooms(2);
     setSelected(["kitchen", "living", "wardrobes"]);
+    setLead(emptyLead);
+    setLeadError("");
+    setWhatsappUrl("");
     scrollTop();
   };
 
@@ -453,7 +474,42 @@ export default function PriceCalculator() {
 
   const labels = mode ? steps[mode] : [];
   const last = labels.length - 1;
+  const detailsStep = last - 1;
   const canContinue = !(mode === "home" && step === 1 && selected.length === 0);
+  const rangeText = `${formatLakh(total * (1 - RANGE))} – ${formatLakh(total * (1 + RANGE))}`;
+
+  // Checks the details form, opens WhatsApp with the details + estimate, then reveals the estimate.
+  const submitLead = (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    const name = lead.name.trim();
+    const location = lead.location.trim();
+    if (!name || !lead.phone.trim() || !location) {
+      setLeadError("Please fill in all the details to see your estimate.");
+      return;
+    }
+    if (!isValidPhone(lead.phone)) {
+      setLeadError("Please enter a valid 10-digit mobile number.");
+      return;
+    }
+    setLeadError("");
+    const message = [
+      "Hi Classy Choice Interiors, I'd like a quote for my interiors.",
+      "",
+      `Name: ${name}`,
+      `Phone: ${lead.phone.trim()}`,
+      `Location: ${location}`,
+      "",
+      `*${mode ? modeTitles[mode].title : "Estimate"}*`,
+      summary,
+      ...lines.map((l) => `• ${l.label}${l.detail ? ` (${l.detail})` : ""}: ${formatINR(l.cost)}`),
+      `Total: ${formatINR(total)}`,
+      `Estimated range: ${rangeText}`,
+    ].join("\n");
+    const url = `https://wa.me/${contact.whatsappNumber}?text=${encodeURIComponent(message)}`;
+    setWhatsappUrl(url);
+    window.open(url, "_blank", "noopener,noreferrer");
+    go(last);
+  };
 
   return (
     <section id="calculator" className="relative overflow-hidden bg-cream/60 py-20">
@@ -795,6 +851,72 @@ export default function PriceCalculator() {
                 </>
               )}
 
+              {step === detailsStep && (
+                <>
+                  <StepTitle
+                    title="Your Estimate Is Ready"
+                    text="Share a few details to see your estimate. WhatsApp will open so you can send it straight to our team."
+                  />
+                  <form id="calc-lead" onSubmit={submitLead} noValidate className="mx-auto max-w-xl space-y-4">
+                    <div>
+                      <label htmlFor="calc-name" className="mb-1.5 block text-sm font-medium text-ink">
+                        Your Name <span className="text-red-500">*</span>
+                      </label>
+                      <input
+                        id="calc-name"
+                        name="name"
+                        required
+                        autoComplete="name"
+                        placeholder="e.g. Priya Sharma"
+                        value={lead.name}
+                        onChange={(e) => setLead({ ...lead, name: e.target.value })}
+                        className={leadFieldClass}
+                      />
+                    </div>
+                    <div>
+                      <label htmlFor="calc-phone" className="mb-1.5 block text-sm font-medium text-ink">
+                        Mobile Number <span className="text-red-500">*</span>
+                      </label>
+                      <input
+                        id="calc-phone"
+                        name="phone"
+                        type="tel"
+                        inputMode="tel"
+                        required
+                        autoComplete="tel"
+                        placeholder="e.g. 98765 43210"
+                        value={lead.phone}
+                        onChange={(e) => setLead({ ...lead, phone: e.target.value })}
+                        className={leadFieldClass}
+                      />
+                    </div>
+                    <div>
+                      <label htmlFor="calc-location" className="mb-1.5 block text-sm font-medium text-ink">
+                        Location / Area <span className="text-red-500">*</span>
+                      </label>
+                      <input
+                        id="calc-location"
+                        name="location"
+                        required
+                        autoComplete="address-level2"
+                        placeholder="e.g. Avadi, Chennai"
+                        value={lead.location}
+                        onChange={(e) => setLead({ ...lead, location: e.target.value })}
+                        className={leadFieldClass}
+                      />
+                    </div>
+                    {leadError && (
+                      <p role="alert" className="rounded-md bg-red-50 px-4 py-2.5 text-sm text-red-600">
+                        {leadError}
+                      </p>
+                    )}
+                    <p className="flex items-center gap-2 text-xs text-muted">
+                      <Lock className="h-3.5 w-3.5 text-gold" /> Your details are only used to contact you about this estimate.
+                    </p>
+                  </form>
+                </>
+              )}
+
               {step === last && (
                 <div className="grid gap-8 lg:grid-cols-[1.15fr_1fr]">
                   <div className="self-start overflow-hidden rounded-lg bg-navy text-white shadow-xl">
@@ -810,9 +932,7 @@ export default function PriceCalculator() {
                         ))}
                       </svg>
                       <p className="relative text-[11px] uppercase tracking-[0.3em] text-gold">Your Estimated Cost</p>
-                      <p className="relative mt-4 font-serif text-4xl sm:text-5xl">
-                        {formatLakh(total * (1 - RANGE))} – {formatLakh(total * (1 + RANGE))}
-                      </p>
+                      <p className="relative mt-4 font-serif text-4xl sm:text-5xl">{rangeText}</p>
                       <p className="relative mt-3 text-sm text-white/75">{summary}</p>
                     </div>
                     <ul className="space-y-3 border-t border-white/10 bg-navy-dark/60 px-7 py-6 text-sm sm:px-8">
@@ -849,6 +969,20 @@ export default function PriceCalculator() {
                         </li>
                       ))}
                     </ul>
+                    {whatsappUrl && (
+                      <a
+                        href={whatsappUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="mt-8 flex items-center gap-3 rounded-lg border border-[#25D366]/40 bg-[#25D366]/10 px-4 py-3 text-sm text-ink transition hover:bg-[#25D366]/20"
+                      >
+                        <MessageCircle className="h-5 w-5 shrink-0 text-[#25D366]" />
+                        <span>
+                          Your estimate was sent to our WhatsApp.{" "}
+                          <span className="font-medium text-[#128C7E] underline">Didn&apos;t open? Tap to send it again.</span>
+                        </span>
+                      </a>
+                    )}
                     <div className="mt-8 flex flex-wrap gap-3">
                       <Link href="/contact#enquiry" className="btn-gold">
                         Book a Free Consultation <ArrowRight className="h-4 w-4" />
@@ -878,14 +1012,18 @@ export default function PriceCalculator() {
               >
                 <ArrowLeft className="h-4 w-4" /> Back
               </button>
-              {step < last ? (
+              {step === detailsStep ? (
+                <button type="submit" form="calc-lead" className="btn-gold">
+                  See My Estimate <ArrowRight className="h-4 w-4" />
+                </button>
+              ) : step < last ? (
                 <button
                   type="button"
                   onClick={() => go(step + 1)}
                   disabled={!canContinue}
                   className="btn-gold disabled:cursor-not-allowed disabled:opacity-50"
                 >
-                  {step === last - 1 ? "See My Estimate" : "Next"} <ArrowRight className="h-4 w-4" />
+                  Next <ArrowRight className="h-4 w-4" />
                 </button>
               ) : (
                 <button type="button" onClick={restart} className="btn-gold">

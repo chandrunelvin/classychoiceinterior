@@ -3,6 +3,8 @@
 export const contact = {
   phone: "+91 98765 43210",
   phoneHref: "tel:+919876543210",
+  // WhatsApp number in international format without "+" (used to build wa.me links).
+  whatsappNumber: "919876543210",
   email: "hello@classychoiceinteriors.com",
   whatsappHref:
     "https://wa.me/919876543210?text=" +
